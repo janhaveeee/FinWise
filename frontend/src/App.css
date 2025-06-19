@@ -1,0 +1,141 @@
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: initial; /* remove global center alignment */
+}
+
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+.App {
+  min-height: 100vh;
+}
+
+/* Homepage Hero Section */
+.hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Typing indicator for chat */
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.typing-indicator span {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: #999;
+  display: inline-block;
+  margin-right: 5px;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Custom card hover effects */
+.card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Progress bars */
+.progress {
+  height: 8px;
+}
+
+/* Notification badges */
+.badge {
+  font-size: 0.7em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 2rem;
+  }
+
+  .display-6 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Custom button styles */
+.btn-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #5a6fd8, #6a4190);
+  transform: translateY(-1px);
+}
+
+/* Chat message styling */
+.chat-message {
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+/* Goal progress styling */
+.goal-card {
+  border-left: 4px solid #667eea;
+}
