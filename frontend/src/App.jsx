@@ -7,6 +7,7 @@ import "./App.css"
 
 // Components
 import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
 import Homepage from "./pages/Homepage"
 import Dashboard from "./pages/Dashboard"
 import AddTransaction from "./pages/AddTransaction"
@@ -42,6 +43,7 @@ function App() {
     <Router>
       <div className="App">
         <Navbar user={user} />
+        
         <Routes>
           <Route path="/" element={<Homepage setUser={setUser} />} />
           <Route path="/dashboard" element={<Dashboard transactions={transactions} goals={goals} />} />
@@ -54,6 +56,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/add-transaction" element={<ProtectedRoute><AddTransaction /></ProtectedRoute>} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   )
