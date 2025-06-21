@@ -56,8 +56,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/add-transaction" element={<ProtectedRoute><AddTransaction /></ProtectedRoute>} />
         </Routes>
-        <Footer />
+        
       </div>
+      <Footer />
     </Router>
   )
 }

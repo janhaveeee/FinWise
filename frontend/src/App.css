@@ -139,3 +139,60 @@
 .goal-card {
   border-left: 4px solid #667eea;
 }
+.navbar {
+  background: linear-gradient(to right, #1e3c72, #2a5298); /* Stylish gradient */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  color: #ffeb3b !important; /* Yellow branding text */
+}
+
+.nav-link {
+  color: #f0f0f0 !important;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #ffeb3b !important;
+  text-decoration: underline;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffeb3b' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+.navbar {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  min-height: 80px; /* increase navbar height */
+}
+
+.navbar-brand {
+  font-size: 1.8rem; /* increase logo size */
+  padding-left: 100 rem; /* add padding to logo */
+}
+
+.nav-link {
+  font-size: 1.1rem; /* increase link text size */
+  padding: 0.75rem 1rem; /* more spacing between links */
+}
+
+.navbar-brand{
+  align-items: start;
+  /*align on left side of page*/
+  
+}
+.navbar-nav .nav-link {
+  padding: 0 0.9rem;
+  font-weight: 500;
+}
+
+.navbar-brand {
+  font-size: 1.6rem;
+  padding-left: 0.5rem;
+}
