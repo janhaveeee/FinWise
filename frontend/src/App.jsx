@@ -14,6 +14,9 @@ import Goals from "./pages/Goals"
 import ChatAssistant from "./pages/ChatAssistant"
 import Learn from "./pages/Learn"
 import Notifications from "./pages/Notifications"
+import Register from './pages/Register';
+import Login from './pages/Login';
+import ProtectedRoute from "./ProtectedRoute"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -47,6 +50,9 @@ function App() {
           <Route path="/chat" element={<ChatAssistant transactions={transactions} />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/add-transaction" element={<ProtectedRoute><AddTransaction /></ProtectedRoute>} />
         </Routes>
       </div>
     </Router>

@@ -21,17 +21,14 @@ function Homepage({ setUser }) {
                 understand, manage, and improve your financial health.
               </p>
               <div className="d-flex gap-3">
-                <Link 
-                  to="/dashboard" 
-                  className="btn btn-light btn-lg px-4"
-                  onClick={handleGetStarted}
-                >
-                  Start Managing Your Money
+                <Link to="/login" className="btn btn-light btn-lg px-4">
+                   Login
                 </Link>
-                <button className="btn btn-outline-light btn-lg px-4">
-                  Learn More
-                </button>
+                <Link to="/register" className="btn btn-outline-light btn-lg px-4">
+                  Register
+                </Link>
               </div>
+
             </div>
             <div className="col-lg-6">
               <div className="text-center">

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 
-function AddTransaction({ addTransaction }) {
+function AddTransaction() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     type: 'expense',
     amount: '',
@@ -16,23 +18,53 @@ function AddTransaction({ addTransaction }) {
     income: ['Salary', 'Freelance', 'Investment', 'Business', 'Other']
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addTransaction({
-      ...formData,
-      amount: parseFloat(formData.amount)
-    });
-    
-    // Show success message
-    alert('Transaction added successfully!');
-    navigate('/dashboard');
-  };
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        alert("You must be logged in to add a transaction.");
+        navigate('/login'); // 🔁 redirect to login
+        return;
+      }
+
+      const token = await user.getIdToken();
+
+      const res = await fetch("http://localhost:8000/api/transactions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` // ✅ Correct format
+        },
+        body: JSON.stringify({
+          ...formData,
+          amount: parseFloat(formData.amount)
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(`Transaction added! AI Suggested Category: ${data.aiSuggestedCategory || 'N/A'}`);
+        navigate("/dashboard");
+      } else {
+        console.error("Server error:", data);
+        alert(data.message || "Something went wrong.");
+      }
+    } catch (error) {
+      console.error("Error adding transaction:", error);
+      alert("Failed to add transaction.");
+    }
   };
 
   return (
@@ -49,11 +81,11 @@ function AddTransaction({ addTransaction }) {
                 <div className="mb-3">
                   <label className="form-label">Transaction Type</label>
                   <div className="btn-group w-100" role="group">
-                    <input 
-                      type="radio" 
-                      className="btn-check" 
-                      name="type" 
-                      id="expense" 
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name="type"
+                      id="expense"
                       value="expense"
                       checked={formData.type === 'expense'}
                       onChange={handleChange}
@@ -62,11 +94,11 @@ function AddTransaction({ addTransaction }) {
                       💸 Expense
                     </label>
 
-                    <input 
-                      type="radio" 
-                      className="btn-check" 
-                      name="type" 
-                      id="income" 
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name="type"
+                      id="income"
                       value="income"
                       checked={formData.type === 'income'}
                       onChange={handleChange}
@@ -142,11 +174,10 @@ function AddTransaction({ addTransaction }) {
                 {/* AI Suggestion */}
                 {formData.amount && formData.category && (
                   <div className="alert alert-info">
-                    <strong>🤖 AI Suggestion:</strong> 
-                    {formData.type === 'expense' && formData.amount > 5000 
-                      ? " This seems like a significant expense. Consider if this aligns with your budget goals."
-                      : " Great! This transaction looks reasonable for your spending pattern."
-                    }
+                    <strong>🤖 AI Suggestion:</strong>{" "}
+                    {formData.type === 'expense' && formData.amount > 5000
+                      ? "This seems like a significant expense. Consider if this aligns with your budget goals."
+                      : "Great! This transaction looks reasonable for your spending pattern."}
                   </div>
                 )}
 
@@ -154,8 +185,8 @@ function AddTransaction({ addTransaction }) {
                   <button type="submit" className="btn btn-primary">
                     Add Transaction
                   </button>
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="btn btn-outline-secondary"
                     onClick={() => navigate('/dashboard')}
                   >
