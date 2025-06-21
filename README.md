@@ -1,9 +1,8 @@
 # FinWise
-# 💰 FinWise
 
 FinWise is an AI-powered personal finance platform that helps users manage income, expenses, savings goals, and receive smart budgeting suggestions. Built with React, Firebase, and Node.js.
 
-## 🚀 Features
+##  Features
 
 -  User Authentication (Firebase)
 -  Dashboard with budget summaries (50/30/20 rule)
@@ -12,7 +11,7 @@ FinWise is an AI-powered personal finance platform that helps users manage incom
 -  Chat with an AI finance assistant
 -  Learn personal finance with mini-lessons (LLM-powered)
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 - **Frontend**: React, Bootstrap, Firebase Auth
 - **Backend**: Node.js, Express, Firebase Admin SDK
