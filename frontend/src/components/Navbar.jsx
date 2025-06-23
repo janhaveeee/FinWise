@@ -14,7 +14,7 @@ function Navbar({ user }) {
 
         {/* Left: Logo */}
         <Link className="navbar-brand fw-bold" to="/dashboard">
-          💲 FinWise
+            💲FinWise
         </Link>
 
         {/* Center: Toggle + Links */}

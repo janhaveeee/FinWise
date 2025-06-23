@@ -1,12 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function Goals({ goals, addGoal }) {
+function Goals() {
+  const [goals, setGoals] = useState([]);
+  const [mlTips, setMlTips] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [newGoal, setNewGoal] = useState({
     title: '',
     target: '',
     deadline: ''
   });
+
+  // Fetch goals on mount
+  useEffect(() => {
+    const fetchGoals = async () => {
+      try {
+        const res = await axios.get('http://localhost:8000/api/goals');
+        setGoals(res.data);
+
+        // 🔁 Also fetch ML tip for each goal
+        for (const goal of res.data) {
+          const daysLeft = Math.ceil(
+            (new Date(goal.deadline) - new Date()) / (1000 * 60 * 60 * 24)
+          );
+          const input = {
+            target: goal.target,
+            current: goal.current || 0,
+            income: goal.income || 0,
+            expenses: goal.expenses || 0,
+            daysLeft
+          };
+
+          try {
+            const res = await axios.post('http://localhost:8000/api/ml-tip', input);
+            setMlTips(prev => ({
+              ...prev,
+              [goal.id]: res.data.recommendedDailySaving
+            }));
+          } catch (err) {
+            console.warn(`Failed ML tip for goal ${goal.id}:`, err.message);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching goals:', err);
+      }
+    };
+    fetchGoals();
+  }, []);
+
+  // Add goal
+  const addGoal = async (goal) => {
+    try {
+      const res = await axios.post('http://localhost:8000/api/goals', goal);
+      setGoals(prev => [...prev, res.data]);
+    } catch (err) {
+      console.error('Error adding goal:', err);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -94,8 +144,10 @@ function Goals({ goals, addGoal }) {
         {goals.map(goal => {
           const progress = (goal.current / goal.target) * 100;
           const remaining = goal.target - goal.current;
-          const daysLeft = Math.ceil((new Date(goal.deadline) - new Date()) / (1000 * 60 * 60 * 24));
-          
+          const daysLeft = Math.ceil(
+            (new Date(goal.deadline) - new Date()) / (1000 * 60 * 60 * 24)
+          );
+
           return (
             <div key={goal.id} className="col-lg-6">
               <div className="card h-100">
@@ -129,25 +181,25 @@ function Goals({ goals, addGoal }) {
                       <p className="mb-0 fw-bold">{daysLeft > 0 ? daysLeft : 'Overdue'}</p>
                     </div>
                   </div>
-                  
+
                   {/* AI Suggestion */}
                   <div className="mt-3">
                     <div className="alert alert-info py-2">
                       <small>
-                        <strong>🤖 AI Tip:</strong> 
-                        {remaining > 0 && daysLeft > 0 
-                          ? ` Save ₹${Math.ceil(remaining/daysLeft)} daily to reach your goal on time!`
-                          : ' Congratulations on reaching your goal!'
-                        }
+                        <strong>🤖 AI Tip:</strong>{' '}
+                        {mlTips[goal.id]
+                          ? `Save ₹${mlTips[goal.id]} daily to reach your goal on time.`
+                          : 'Calculating recommendation...'}
                       </small>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
           );
         })}
-        
+
         {goals.length === 0 && (
           <div className="col-12">
             <div className="text-center py-5">
